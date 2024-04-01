@@ -9,6 +9,7 @@ from airport_app.models import (
     Flight,
     Order,
     Ticket,
+    Crew,
 )
 
 admin.site.register(Country)
@@ -19,3 +20,4 @@ admin.site.register(Airplane)
 admin.site.register(Flight)
 admin.site.register(Order)
 admin.site.register(Ticket)
+admin.site.register(Crew)
