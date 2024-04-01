@@ -1,0 +1,149 @@
+[
+  {
+    "model": "airport_app.country",
+    "pk": 1,
+    "fields": {
+      "name": "United States"
+    }
+  },
+  {
+    "model": "airport_app.city",
+    "pk": 1,
+    "fields": {
+      "name": "New York",
+      "country": 1
+    }
+  },
+  {
+    "model": "airport_app.airport",
+    "pk": 1,
+    "fields": {
+      "name": "John F. Kennedy International Airport",
+      "country": 1,
+      "city": 1
+    }
+  },
+  {
+    "model": "airport_app.city",
+    "pk": 2,
+    "fields": {
+      "name": "Los Angeles",
+      "country": 1
+    }
+  },
+  {
+    "model": "airport_app.airport",
+    "pk": 2,
+    "fields": {
+      "name": "Los Angeles International Airport",
+      "country": 1,
+      "city": 2
+    }
+  },
+  {
+    "model": "airport_app.country",
+    "pk": 2,
+    "fields": {
+      "name": "United Kingdom"
+    }
+  },
+  {
+    "model": "airport_app.city",
+    "pk": 3,
+    "fields": {
+      "name": "London",
+      "country": 2
+    }
+  },
+  {
+    "model": "airport_app.airport",
+    "pk": 3,
+    "fields": {
+      "name": "Heathrow Airport",
+      "country": 2,
+      "city": 3
+    }
+  },
+  {
+    "model": "airport_app.country",
+    "pk": 3,
+    "fields": {
+      "name": "France"
+    }
+  },
+  {
+    "model": "airport_app.city",
+    "pk": 4,
+    "fields": {
+      "name": "Paris",
+      "country": 3
+    }
+  },
+  {
+    "model": "airport_app.airport",
+    "pk": 4,
+    "fields": {
+      "name": "Charles de Gaulle Airport",
+      "country": 3,
+      "city": 4
+    }
+  },
+  {
+    "model": "airport_app.city",
+    "pk": 5,
+    "fields": {
+      "name": "Marseille",
+      "country": 3
+    }
+  },
+  {
+    "model": "airport_app.airport",
+    "pk": 5,
+    "fields": {
+      "name": "Marseille Provence Airport",
+      "country": 3,
+      "city": 5
+    }
+  },
+  {
+    "model": "airport_app.country",
+    "pk": 4,
+    "fields": {
+      "name": "Germany"
+    }
+  },
+  {
+    "model": "airport_app.city",
+    "pk": 6,
+    "fields": {
+      "name": "Berlin",
+      "country": 4
+    }
+  },
+  {
+    "model": "airport_app.airport",
+    "pk": 6,
+    "fields": {
+      "name": "Berlin Tegel Airport",
+      "country": 4,
+      "city": 6
+    }
+  },
+  {
+    "model": "airport_app.city",
+    "pk": 7,
+    "fields": {
+      "name": "Munich",
+      "country": 4
+    }
+  },
+  {
+    "model": "airport_app.airport",
+    "pk": 7,
+    "fields": {
+      "name": "Munich Airport",
+      "country": 4,
+      "city": 7
+    }
+  }
+]
