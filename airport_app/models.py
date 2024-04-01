@@ -45,7 +45,7 @@ class Route(models.Model):
         Airport, on_delete=models.CASCADE,
         related_name="destination_routes",
     )
-    distance = models.IntegerField()
+    distance = models.IntegerField(null=True)
 
     def clean(self):
         if self.source == self.destination:
