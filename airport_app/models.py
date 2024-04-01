@@ -19,6 +19,7 @@ class City(models.Model):
     country = models.ForeignKey(Country, on_delete=models.CASCADE, )
 
     class Meta:
+        unique_together = ("country", "name",)
         verbose_name_plural = "cities"
 
     def __str__(self):
@@ -67,6 +68,7 @@ class Route(models.Model):
         return f"{self.source} -> {self.destination}"
 
 
+# TODO - add image field to airplane
 class Airplane(models.Model):
     name = models.CharField(max_length=255)
     rows = models.IntegerField()
