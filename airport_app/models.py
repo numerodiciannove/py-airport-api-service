@@ -7,6 +7,9 @@ from airport_service import settings
 class Country(models.Model):
     name = models.CharField(max_length=255)
 
+    class Meta:
+        verbose_name_plural = "countries"
+
     def __str__(self):
         return self.name
 
@@ -14,6 +17,9 @@ class Country(models.Model):
 class City(models.Model):
     name = models.CharField(max_length=255)
     country = models.ForeignKey(Country, on_delete=models.CASCADE, )
+
+    class Meta:
+        verbose_name_plural = "cities"
 
     def __str__(self):
         return self.name
