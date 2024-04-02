@@ -16,7 +16,13 @@ class Country(models.Model):
 
 class City(models.Model):
     name = models.CharField(max_length=255)
-    country = models.ForeignKey(Country, on_delete=models.CASCADE, )
+    country = models.ForeignKey(
+        Country,
+        on_delete=models.CASCADE,
+        related_name="city_country",
+        blank=False,
+        null=False
+    )
 
     class Meta:
         unique_together = ("country", "name",)
@@ -31,7 +37,7 @@ class Airport(models.Model):
     country = models.ForeignKey(
         Country,
         on_delete=models.CASCADE,
-        related_name="country_airports",
+        related_name="airport_country",
     )
     city = models.ForeignKey(
         City,
