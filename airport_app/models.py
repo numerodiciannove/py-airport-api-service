@@ -51,7 +51,7 @@ class Airport(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return f"{self.city} - {self.country} 🟢 '{self.name}'"
 
 
 class Route(models.Model):

@@ -4,6 +4,7 @@ from airport_app.models import (
     Country,
     City,
     Airport,
+    Route,
 )
 from airport_app.serializers import (
     CountrySerializer,
@@ -13,6 +14,9 @@ from airport_app.serializers import (
     AirportListSerializer,
     AirportRetrieveSerializer,
     CityRetrieveSerializer,
+    RouteSerializer,
+    RouteListSerializer,
+    RouteRetrieveSerializer,
 )
 
 
@@ -41,7 +45,6 @@ class CityViewSet(ModelViewSet):
 
 class AirportViewSet(ModelViewSet):
     queryset = Airport.objects.all()
-    serializer_class = AirportSerializer
 
     def get_serializer_class(self):
         if self.action == "list":
@@ -55,5 +58,24 @@ class AirportViewSet(ModelViewSet):
         queryset = self.queryset
         if self.action in ("list", "retrieve"):
             return queryset.select_related()
+
+        return queryset
+
+
+class RouteViewSet(ModelViewSet):
+    queryset = Route.objects.all()
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return RouteListSerializer
+        elif self.action == "retrieve":
+            return RouteRetrieveSerializer
+
+        return RouteSerializer
+
+    def get_queryset(self):
+        queryset = self.queryset
+        if self.action in ("list", "retrieve"):
+            return queryset.select_related("source", "destination")
 
         return queryset

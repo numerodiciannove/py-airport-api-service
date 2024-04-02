@@ -4,6 +4,7 @@ from airport_app.models import (
     Country,
     City,
     Airport,
+    Route,
 )
 
 
@@ -45,10 +46,6 @@ class AirportListSerializer(AirportSerializer):
     country = serializers.CharField(source="country.name")
     city = serializers.CharField(source="city.name")
 
-    class Meta:
-        model = Airport
-        fields = ("id", "name", "country", "city",)
-
 
 class AirportRetrieveSerializer(AirportSerializer):
     city = CityRetrieveSerializer()
@@ -56,3 +53,30 @@ class AirportRetrieveSerializer(AirportSerializer):
     class Meta:
         model = Airport
         fields = ("id", "name", "city",)
+
+
+class RouteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Route
+        fields = ("id", "source", "destination", "distance")
+
+
+class RouteListSerializer(RouteSerializer):
+    source = serializers.SerializerMethodField()
+    destination = serializers.SerializerMethodField()
+
+    @staticmethod
+    def get_source(obj):
+        return f"{obj.source.city}, {obj.source.country} - '{obj.source.name}'"
+
+    @staticmethod
+    def get_destination(obj):
+        return (
+            f"{obj.destination.city}, {obj.destination.country} - "
+            f"'{obj.destination.name}'"
+        )
+
+
+class RouteRetrieveSerializer(RouteSerializer):
+    source = AirportRetrieveSerializer()
+    destination = AirportRetrieveSerializer()
