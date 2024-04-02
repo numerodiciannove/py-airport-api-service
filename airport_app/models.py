@@ -1,11 +1,12 @@
 from django.core.exceptions import ValidationError
 from django.db import models
+from smart_selects.db_fields import ChainedForeignKey
 
 from airport_service import settings
 
 
 class Country(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
 
     class Meta:
         verbose_name_plural = "countries"
@@ -39,10 +40,14 @@ class Airport(models.Model):
         on_delete=models.CASCADE,
         related_name="airport_country",
     )
-    city = models.ForeignKey(
+    city = ChainedForeignKey(
         City,
-        on_delete=models.CASCADE,
-        related_name="city_airports",
+        chained_field="country",
+        chained_model_field="country",
+        show_all=False,
+        auto_choose=True,
+        sort=True,
+        related_name="city_airports"
     )
 
     def __str__(self):

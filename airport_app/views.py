@@ -3,11 +3,14 @@ from rest_framework.viewsets import ModelViewSet
 from airport_app.models import (
     Country,
     City,
+    Airport,
 )
 from airport_app.serializers import (
     CountrySerializer,
     CitySerializer,
-    CityListSerializer
+    CityListSerializer,
+    AirportSerializer,
+    AirportListSerializer
 )
 
 
@@ -30,3 +33,14 @@ class CityViewSet(ModelViewSet):
         if self.action == "list":
             return queryset.select_related()
         return queryset
+
+
+class AirportViewSet(ModelViewSet):
+    queryset = Airport.objects.all()
+    serializer_class = AirportSerializer
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return AirportListSerializer
+
+        return AirportSerializer
