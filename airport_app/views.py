@@ -29,12 +29,19 @@ from airport_app.serializers import (
     AirplaneImageSerializer,
     AirplaneTypeSerializer,
     AirplaneRetrieveSerializer,
+    CountryRetrieveSerializer,
 )
 
 
 class CountryViewSet(ModelViewSet):
     queryset = Country.objects.all()
     serializer_class = CountrySerializer
+
+    def get_serializer_class(self):
+        if self.action == "retrieve":
+            return CountryRetrieveSerializer
+
+        return CountrySerializer
 
 
 class CityViewSet(ModelViewSet):

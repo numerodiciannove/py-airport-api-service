@@ -12,22 +12,37 @@ from airport_app.models import (
 
 class CountrySerializer(serializers.ModelSerializer):
     class Meta:
+        model = City
+        fields = ("id", "name",)
+
+
+class CountryRetrieveSerializer(CountrySerializer):
+    cities = CountrySerializer(many=True, read_only=True,
+                               source="city_country")
+
+    class Meta:
         model = Country
-        fields = ("id", "name")
+        fields = ("id", "name", "cities")
 
 
 class CitySerializer(serializers.ModelSerializer):
     class Meta:
         model = City
-        fields = ("id", "name", "country")
+        fields = ("id", "name",)
 
 
 class CityListSerializer(CitySerializer):
-    country = serializers.CharField(source="country.name")
+    class Meta:
+        model = City
+        fields = ("id", "name",)
 
 
 class CityRetrieveSerializer(CitySerializer):
     country = CountrySerializer()
+
+    class Meta:
+        model = City
+        fields = ("id", "name", "country")
 
 
 class AirportSerializer(serializers.ModelSerializer):
