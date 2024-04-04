@@ -5,6 +5,7 @@ from airport_app.models import (
     City,
     Airport,
     Route,
+    Airplane,
 )
 
 
@@ -80,3 +81,33 @@ class RouteListSerializer(RouteSerializer):
 class RouteRetrieveSerializer(RouteSerializer):
     source = AirportRetrieveSerializer()
     destination = AirportRetrieveSerializer()
+
+
+class AirplaneSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Airplane
+        fields = (
+            "id",
+            "name",
+            "rows",
+            "seats_in_row",
+        )
+
+
+class AirplaneListSerializer(AirplaneSerializer):
+    airplane_image = serializers.ImageField(read_only=True)
+
+    class Meta:
+        model = Airplane
+        fields = (
+            "id",
+            "name",
+            "capacity",
+            "airplane_image",
+        )
+
+
+class AirplaneImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Airplane
+        fields = ("id", "airplane_image")
