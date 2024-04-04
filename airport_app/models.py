@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os
 import uuid
 
@@ -87,7 +89,7 @@ def airplane_image_file_path(instance, filename) -> str:
     _, extension = os.path.splitext(filename)
     filename = f"{slugify(instance.name)}-{uuid.uuid4()}{extension}"
 
-    return os.path.join("media/uploads/airplanes/", filename)
+    return os.path.join("uploads/airplanes/", filename)
 
 
 class Airplane(models.Model):
@@ -121,8 +123,12 @@ class Airplane(models.Model):
     )
 
     @property
-    def capacity(self) -> int:
-        return self.rows * self.seats_in_row
+    def capacity(self) -> int | str:
+        capacity = self.rows * self.seats_in_row
+
+        if capacity > 0:
+            return capacity
+        return "cargo_airplane"
 
     def __str__(self):
         return (
