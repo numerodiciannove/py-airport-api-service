@@ -88,6 +88,7 @@ class AirplaneSerializer(serializers.ModelSerializer):
         model = Airplane
         fields = (
             "id",
+            "airplane_type",
             "name",
             "rows",
             "seats_in_row",
@@ -102,6 +103,7 @@ class AirplaneListSerializer(AirplaneSerializer):
         fields = (
             "id",
             "name",
+            "airplane_type",
             "capacity",
             "airplane_image",
         )
