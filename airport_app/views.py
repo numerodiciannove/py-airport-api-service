@@ -8,7 +8,9 @@ from airport_app.models import (
     Country,
     City,
     Airport,
-    Route, Airplane,
+    Route,
+    Airplane,
+    AirplaneType,
 )
 from airport_app.permissions import IsAdminOrIfAuthenticatedReadOnly
 from airport_app.serializers import (
@@ -25,6 +27,8 @@ from airport_app.serializers import (
     AirplaneSerializer,
     AirplaneListSerializer,
     AirplaneImageSerializer,
+    AirplaneTypeSerializer,
+    AirplaneRetrieveSerializer,
 )
 
 
@@ -89,13 +93,20 @@ class RouteViewSet(ModelViewSet):
         return queryset
 
 
+class AirplaneTypeViewSet(ModelViewSet):
+    queryset = AirplaneType.objects.all()
+    serializer_class = AirplaneTypeSerializer
+
+
 class AirplaneViewSet(ModelViewSet):
     queryset = Airplane.objects.all()
     permission_classes = (IsAdminOrIfAuthenticatedReadOnly,)
 
     def get_serializer_class(self):
-        if self.action in ("list", "retrieve"):
+        if self.action == "list":
             return AirplaneListSerializer
+        elif self.action == "retrieve":
+            return AirplaneRetrieveSerializer
         elif self.action == "upload_image":
             return AirplaneImageSerializer
 
