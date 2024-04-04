@@ -92,29 +92,24 @@ def airplane_image_file_path(instance, filename) -> str:
     return os.path.join("uploads/airplanes/", filename)
 
 
-class Airplane(models.Model):
-    AIRPLANE_TYPES_CHOICES = (
-        ("commercial", "Commercial"),
-        ("jumbo_jet", "Jumbo jet"),
-        ("cargo", "Cargo"),
-        ("wide_bodies", "Wide-bodies"),
-        ("narrow_bodies", "Narrow-bodies"),
-        ("private_jet", "Private jet"),
-        ("heavy_jet", "Heavy jet"),
-        ("mid_size_jet", "Mid-size jet"),
-        ("light_jet", "Light jet"),
-        ("propeller_plane", "Propeller plane"),
-        ("airship", "Airship"),
-        ("gliders", "Gliders"),
-    )
+class AirplaneType(models.Model):
+    name = models.CharField(max_length=255)
 
+    class Meta:
+        ordering = ("name",)
+
+    def __str__(self):
+        return self.name
+
+
+class Airplane(models.Model):
     name = models.CharField(max_length=255)
     rows = models.IntegerField()
-    airplane_type = models.CharField(
-        max_length=255,
-        choices=AIRPLANE_TYPES_CHOICES,
+    airplane_type = models.ForeignKey(
+        AirplaneType,
         null=True,
-        blank=True
+        blank=True,
+        on_delete=models.CASCADE,
     )
     seats_in_row = models.IntegerField()
     airplane_image = models.ImageField(
