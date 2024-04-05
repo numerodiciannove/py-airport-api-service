@@ -134,3 +134,21 @@ class AirplaneViewSet(ModelViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def get_queryset(self):
+        """Detail view for the airplanes with filters"""
+        queryset = self.queryset
+        airplane_type = self.request.query_params.get("airplane_types")
+
+        if airplane_type:
+            airplane_types_ids = [
+                int(str_id) for str_id in airplane_type.split(",")
+            ]
+            queryset = Airplane.objects.filter(
+                airplane_type__id__in=airplane_types_ids
+            )
+
+        if self.action in ["list", "retrieve"]:
+            queryset = queryset.prefetch_related("airplane_type")
+
+        return queryset
