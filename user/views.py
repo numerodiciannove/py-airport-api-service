@@ -1,25 +1,46 @@
-from rest_framework import generics
-from user.serializers import UserSerializer, AuthTokenSerializer
-from rest_framework.settings import api_settings
-from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from django.contrib.auth import get_user_model
+from rest_framework import generics, mixins, status
+from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.viewsets import GenericViewSet
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
+from user.serializers import UserSerializer, UserImageSerializer
 
 
 class CreateUserView(generics.CreateAPIView):
     serializer_class = UserSerializer
-    permission_classes = [AllowAny]
 
 
-class CreateTokenView(ObtainAuthToken):
-    renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
-    serializer_class = AuthTokenSerializer
-
-
-class ManageUserView(generics.RetrieveUpdateAPIView):
-    serializer_class = UserSerializer
-    authentication_classes = (TokenAuthentication,)
+class ManageUserView(
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    GenericViewSet,
+):
+    queryset = get_user_model().objects.all()
+    authentication_classes = (JWTAuthentication,)
     permission_classes = (IsAuthenticated,)
 
     def get_object(self):
         return self.request.user
+
+    def get_serializer_class(self):
+        if self.action == "upload_user_image":
+            return UserImageSerializer
+        return UserSerializer
+
+    @action(
+        methods=["POST"],
+        detail=True,
+        url_path="upload-user-image",
+    )
+    def upload_user_image(self, request, pk=None):
+        item = self.get_object()
+        serializer = self.get_serializer(item, data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
