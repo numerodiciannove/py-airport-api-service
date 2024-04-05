@@ -1,0 +1,56 @@
+[
+  {
+    "model": "airport_app.route",
+    "pk": 1,
+    "fields": {
+      "source": 1,
+      "destination": 2,
+      "distance": 1200
+    }
+  },
+  {
+    "model": "airport_app.route",
+    "pk": 2,
+    "fields": {
+      "source": 2,
+      "destination": 3,
+      "distance": 1300
+    }
+  },
+  {
+    "model": "airport_app.route",
+    "pk": 3,
+    "fields": {
+      "source": 3,
+      "destination": 4,
+      "distance": 800
+    }
+  },
+  {
+    "model": "airport_app.route",
+    "pk": 4,
+    "fields": {
+      "source": 4,
+      "destination": 1,
+      "distance": 1700
+    }
+  },
+  {
+    "model": "airport_app.route",
+    "pk": 5,
+    "fields": {
+      "source": 1,
+      "destination": 3,
+      "distance": 1500
+    }
+  },
+  {
+    "model": "airport_app.route",
+    "pk": 6,
+    "fields": {
+      "source": 2,
+      "destination": 4,
+      "distance": 1000
+    }
+  }
+]
