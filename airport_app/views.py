@@ -12,6 +12,7 @@ from airport_app.models import (
     Route,
     Airplane,
     AirplaneType,
+    Crew,
 )
 from airport_app.permissions import IsAdminOrIfAuthenticatedReadOnly
 from airport_app.serializers import (
@@ -31,6 +32,7 @@ from airport_app.serializers import (
     AirplaneTypeSerializer,
     AirplaneRetrieveSerializer,
     CountryRetrieveSerializer,
+    CrewSerializer,
 )
 
 
@@ -175,3 +177,8 @@ class AirplaneViewSet(ModelViewSet):
             queryset = queryset.prefetch_related("airplane_type")
 
         return queryset
+
+
+class CrewViewSet(ModelViewSet):
+    queryset = Crew.objects.all()
+    serializer_class = CrewSerializer
