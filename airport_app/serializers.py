@@ -8,6 +8,7 @@ from airport_app.models import (
     AirplaneType,
     Airplane,
     Crew,
+    Flight,
 )
 
 
@@ -168,3 +169,73 @@ class CrewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Crew
         fields = "__all__"
+
+
+class FlightSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Flight
+        fields = ("id",
+                  "route",
+                  "airplane",
+                  "departure_time",
+                  "arrival_time",
+                  )
+
+
+class FlightListSerializer(FlightSerializer):
+    route_source = serializers.CharField(
+        source="route.source.name",
+        read_only=True)
+    route_destination = serializers.CharField(
+        source="route.destination.name",
+        read_only=True)
+    airplane_name = serializers.CharField(
+        source="airplane.name", read_only=True
+    )
+    airplane_capacity = serializers.IntegerField(
+        source="airplane.capacity", read_only=True
+    )
+    tickets_available = serializers.IntegerField(read_only=True)
+    crew = serializers.SerializerMethodField()
+
+    @staticmethod
+    def get_crew(obj):
+        crew_members = obj.crew.all()
+        crew_names = [
+            f"{crew_member.first_name} {crew_member.last_name}"
+            for crew_member in crew_members
+        ]
+        return ", ".join(crew_names)
+
+    class Meta:
+        model = Flight
+        fields = (
+            "id",
+            "route_source",
+            "route_destination",
+            "airplane_name",
+            "airplane_capacity",
+            "crew",
+            "tickets_available",
+        )
+
+
+class FlightRetrieveSerializer(FlightSerializer):
+    route = RouteListSerializer()
+    airplane = AirplaneListSerializer()
+    crew = CrewSerializer(read_only=True, many=True)
+    airplane_image = serializers.ImageField(
+        source="airplane.image", read_only=True
+    )
+
+    class Meta:
+        model = Flight
+        fields = (
+            "id",
+            "route",
+            "airplane",
+            "crew",
+            "departure_time",
+            "arrival_time",
+            "airplane_image",
+        )
