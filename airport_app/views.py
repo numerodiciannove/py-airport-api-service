@@ -1,7 +1,7 @@
 from django.db.models import F, ExpressionWrapper, IntegerField, Count
 from airport_app.permissions import IsAdminOrIfAuthenticatedReadOnly
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import status
@@ -15,6 +15,7 @@ from airport_app.models import (
     AirplaneType,
     Crew,
     Flight,
+    Order,
 )
 
 from airport_app.serializers import (
@@ -38,6 +39,8 @@ from airport_app.serializers import (
     FlightListSerializer,
     FlightRetrieveSerializer,
     FlightSerializer,
+    OrderListSerializer,
+    OrderSerializer,
 )
 
 
@@ -237,3 +240,25 @@ class FlightViewSet(ModelViewSet):
             return FlightRetrieveSerializer
 
         return FlightSerializer
+
+
+class OrderViewSet(ModelViewSet):
+    queryset = (
+        Order.objects
+        .select_related("tickets__flight__airplane", "tickets__flight__route")
+        .prefetch_related("tickets__flight__crew")
+    )
+    serializer_class = OrderSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user)
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return OrderListSerializer
+
+        return OrderSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)

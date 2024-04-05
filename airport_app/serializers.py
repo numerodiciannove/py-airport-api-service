@@ -1,4 +1,6 @@
+from django.db import transaction
 from rest_framework import serializers
+from django.core.exceptions import ValidationError
 
 from airport_app.models import (
     Country,
@@ -9,6 +11,8 @@ from airport_app.models import (
     Airplane,
     Crew,
     Flight,
+    Ticket,
+    Order,
 )
 
 
@@ -239,3 +243,58 @@ class FlightRetrieveSerializer(FlightSerializer):
             "arrival_time",
             "airplane_image",
         )
+
+
+class TicketSerializer(serializers.ModelSerializer):
+    def validate(self, attrs):
+        data = super(TicketSerializer, self).validate(attrs=attrs)
+        Ticket.validate_ticket(
+            attrs["row"],
+            attrs["seat"],
+            attrs["flight"].airplane,
+            ValidationError
+        )
+        return data
+
+    class Meta:
+        model = Ticket
+        fields = ("id", "row", "seat", "flight")
+
+
+class TicketListSerializer(TicketSerializer):
+    flight = serializers.HyperlinkedRelatedField(
+        many=False,
+        read_only=True,
+        view_name="airport:flight-detail",
+    )
+
+
+class TicketSeatsSerializer(TicketSerializer):
+    class Meta:
+        model = Ticket
+        fields = ("row", "seat")
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    order_tickets = TicketSerializer(many=True, read_only=False,
+                                     allow_empty=False)
+
+    class Meta:
+        model = Order
+        fields = ("id", "order_tickets", "created_at")
+
+    def create(self, validated_data):
+        with transaction.atomic():
+            tickets_data = validated_data.pop("tickets")
+            order = Order.objects.create(**validated_data)
+            for ticket_data in tickets_data:
+                Ticket.objects.create(order=order, **ticket_data)
+            return order
+
+
+class OrderListSerializer(OrderSerializer):
+    tickets = TicketListSerializer(many=True,
+                                   read_only=True)
+
+    class Meta(OrderSerializer.Meta):
+        fields = ("id", "tickets", "created_at")
