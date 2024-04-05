@@ -1,0 +1,170 @@
+[
+  {
+    "model": "airport_app.flight",
+    "pk": 1,
+    "fields": {
+      "route": 1,
+      "airplane": 1,
+      "departure_time": "2024-04-05T08:00:00Z",
+      "arrival_time": "2024-04-05T10:00:00Z",
+      "crew": [
+        1,
+        2
+      ]
+    }
+  },
+  {
+    "model": "airport_app.flight",
+    "pk": 2,
+    "fields": {
+      "route": 2,
+      "airplane": 2,
+      "departure_time": "2024-04-05T09:00:00Z",
+      "arrival_time": "2024-04-05T11:00:00Z",
+      "crew": [
+        3,
+        4
+      ]
+    }
+  },
+  {
+    "model": "airport_app.flight",
+    "pk": 3,
+    "fields": {
+      "route": 3,
+      "airplane": 3,
+      "departure_time": "2024-04-05T10:00:00Z",
+      "arrival_time": "2024-04-05T12:00:00Z",
+      "crew": [
+        5,
+        6
+      ]
+    }
+  },
+  {
+    "model": "airport_app.flight",
+    "pk": 4,
+    "fields": {
+      "route": 4,
+      "airplane": 4,
+      "departure_time": "2024-04-05T11:00:00Z",
+      "arrival_time": "2024-04-05T13:00:00Z",
+      "crew": [
+        7,
+        8
+      ]
+    }
+  },
+  {
+    "model": "airport_app.flight",
+    "pk": 5,
+    "fields": {
+      "route": 5,
+      "airplane": 3,
+      "departure_time": "2024-04-05T12:00:00Z",
+      "arrival_time": "2024-04-05T14:00:00Z",
+      "crew": [
+        9,
+        10
+      ]
+    }
+  },
+  {
+    "model": "airport_app.flight",
+    "pk": 6,
+    "fields": {
+      "route": 6,
+      "airplane": 4,
+      "departure_time": "2024-04-05T13:00:00Z",
+      "arrival_time": "2024-04-05T15:00:00Z",
+      "crew": [
+        11,
+        12
+      ]
+    }
+  },
+  {
+    "model": "airport_app.flight",
+    "pk": 7,
+    "fields": {
+      "route": 2,
+      "airplane": 1,
+      "departure_time": "2024-04-05T14:00:00Z",
+      "arrival_time": "2024-04-05T16:00:00Z",
+      "crew": [
+        1,
+        2
+      ]
+    }
+  },
+  {
+    "model": "airport_app.flight",
+    "pk": 8,
+    "fields": {
+      "route": 3,
+      "airplane": 2,
+      "departure_time": "2024-04-05T15:00:00Z",
+      "arrival_time": "2024-04-05T17:00:00Z",
+      "crew": [
+        3,
+        4
+      ]
+    }
+  },
+  {
+    "model": "airport_app.flight",
+    "pk": 9,
+    "fields": {
+      "route": 6,
+      "airplane": 3,
+      "departure_time": "2024-04-05T16:00:00Z",
+      "arrival_time": "2024-04-05T18:00:00Z",
+      "crew": [
+        5,
+        6
+      ]
+    }
+  },
+  {
+    "model": "airport_app.flight",
+    "pk": 10,
+    "fields": {
+      "route": 4,
+      "airplane": 3,
+      "departure_time": "2024-04-05T17:00:00Z",
+      "arrival_time": "2024-04-05T19:00:00Z",
+      "crew": [
+        7,
+        8
+      ]
+    }
+  },
+  {
+    "model": "airport_app.flight",
+    "pk": 11,
+    "fields": {
+      "route": 1,
+      "airplane": 5,
+      "departure_time": "2024-04-05T18:00:00Z",
+      "arrival_time": "2024-04-05T20:00:00Z",
+      "crew": [
+        9,
+        10
+      ]
+    }
+  },
+  {
+    "model": "airport_app.flight",
+    "pk": 12,
+    "fields": {
+      "route": 2,
+      "airplane": 6,
+      "departure_time": "2024-04-05T19:00:00Z",
+      "arrival_time": "2024-04-05T21:00:00Z",
+      "crew": [
+        11,
+        12
+      ]
+    }
+  }
+]
