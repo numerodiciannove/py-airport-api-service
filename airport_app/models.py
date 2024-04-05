@@ -6,8 +6,6 @@ import uuid
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.text import slugify
-from smart_selects.db_fields import ChainedForeignKey
-
 from airport_service import settings
 
 
@@ -46,14 +44,10 @@ class Airport(models.Model):
         on_delete=models.CASCADE,
         related_name="airport_country",
     )
-    city = ChainedForeignKey(
+    city = models.ForeignKey(
         City,
-        chained_field="country",
-        chained_model_field="country",
-        show_all=False,
-        auto_choose=True,
-        sort=True,
-        related_name="city_airports"
+        on_delete=models.CASCADE,
+        related_name="airport_city",
     )
 
     def __str__(self):
