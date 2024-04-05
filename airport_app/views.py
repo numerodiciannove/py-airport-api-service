@@ -1,3 +1,4 @@
+from django.db.models import F, ExpressionWrapper, IntegerField
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAdminUser
@@ -139,6 +140,8 @@ class AirplaneViewSet(ModelViewSet):
         """Detail view for the airplanes with filters"""
         queryset = self.queryset
         airplane_type = self.request.query_params.get("airplane_types")
+        capacity_gte = self.request.query_params.get("capacity_gte")
+        capacity_lte = self.request.query_params.get("capacity_lte")
 
         if airplane_type:
             airplane_types_ids = [
@@ -146,6 +149,26 @@ class AirplaneViewSet(ModelViewSet):
             ]
             queryset = Airplane.objects.filter(
                 airplane_type__id__in=airplane_types_ids
+            )
+
+        if capacity_gte:
+            queryset = queryset.annotate(
+                computed_capacity=ExpressionWrapper(
+                    F('rows') * F('seats_in_row'),
+                    output_field=IntegerField(),
+                )
+            ).filter(
+                computed_capacity__gte=int(capacity_gte)
+            )
+
+        if capacity_lte:
+            queryset = queryset.annotate(
+                computed_capacity=ExpressionWrapper(
+                    F('rows') * F('seats_in_row'),
+                    output_field=IntegerField(),
+                )
+            ).filter(
+                computed_capacity__lte=int(capacity_lte)
             )
 
         if self.action in ["list", "retrieve"]:
