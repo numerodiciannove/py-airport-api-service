@@ -17,8 +17,10 @@ class CountrySerializer(serializers.ModelSerializer):
 
 
 class CountryRetrieveSerializer(CountrySerializer):
-    cities = CountrySerializer(many=True, read_only=True,
-                               source="city_country")
+    cities = CountrySerializer(
+        many=True, read_only=True,
+        source="city_country"
+    )
 
     class Meta:
         model = Country
@@ -55,7 +57,8 @@ class AirportSerializer(serializers.ModelSerializer):
         city = data.get('city')
         if city.country != country:
             raise serializers.ValidationError(
-                "The selected city does not belong to the selected country.")
+                "The selected city does not belong to the selected country."
+            )
         return data
 
 
@@ -121,7 +124,6 @@ class AirplaneSerializer(serializers.ModelSerializer):
 
 
 class AirplaneListSerializer(AirplaneSerializer):
-    airplane_image = serializers.ImageField(read_only=True)
     airplane_type = serializers.SlugRelatedField(
         many=False,
         read_only=True,
