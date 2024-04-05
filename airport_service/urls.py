@@ -1,17 +1,19 @@
+from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-
-from airport_service import settings
+from drf_spectacular.views import SpectacularSwaggerView, SpectacularAPIView
 
 urlpatterns = [
                   path("admin/", admin.site.urls),
-                  path("__debug__/", include("debug_toolbar.urls")),
-                  path(
-                      "api/v1/airport_app/",
-                      include("airport_app.urls", namespace="airport_app")
-                  ),
-                  path("chaining/", include('smart_selects.urls')),
+                  path("api/v1/airport/",
+                       include("airport_app.urls", namespace="airport")),
                   path("api/v1/user/", include("user.urls", namespace="user")),
-
+                  path("api/v1/schema/", SpectacularAPIView.as_view(),
+                       name="schema"),
+                  path(
+                      "api/v1/doc/swagger/",
+                      SpectacularSwaggerView.as_view(url_name="schema"),
+                      name="swagger-ui",
+                  ),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
