@@ -53,3 +53,9 @@ class AuthTokenSerializer(serializers.Serializer):
             )
         attrs["user"] = user
         return attrs
+
+
+class UserImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ("id", "user_image")
