@@ -1,4 +1,8 @@
 from django.db.models import F, ExpressionWrapper, IntegerField, Count
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import extend_schema, OpenApiParameter
+from rest_framework.pagination import PageNumberPagination
+
 from airport_app.permissions import IsAdminOrIfAuthenticatedReadOnly
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
@@ -44,9 +48,15 @@ from airport_app.serializers import (
 )
 
 
+class DefaultPagination(PageNumberPagination):
+    page_size = 10
+    max_page_size = 100
+
+
 class CountryViewSet(ModelViewSet):
     queryset = Country.objects.all()
-    serializer_class = CountrySerializer
+    permission_classes = (IsAdminOrIfAuthenticatedReadOnly,)
+    pagination_class = DefaultPagination
 
     def get_serializer_class(self):
         if self.action == "retrieve":
@@ -57,6 +67,8 @@ class CountryViewSet(ModelViewSet):
 
 class CityViewSet(ModelViewSet):
     queryset = City.objects.all().select_related()
+    permission_classes = (IsAdminOrIfAuthenticatedReadOnly,)
+    pagination_class = DefaultPagination
 
     def get_serializer_class(self):
         if self.action == "list":
@@ -75,6 +87,8 @@ class CityViewSet(ModelViewSet):
 
 class AirportViewSet(ModelViewSet):
     queryset = Airport.objects.all()
+    permission_classes = (IsAdminOrIfAuthenticatedReadOnly,)
+    pagination_class = DefaultPagination
 
     def get_serializer_class(self):
         if self.action == "list":
@@ -94,6 +108,8 @@ class AirportViewSet(ModelViewSet):
 
 class RouteViewSet(ModelViewSet):
     queryset = Route.objects.all()
+    permission_classes = (IsAdminOrIfAuthenticatedReadOnly,)
+    pagination_class = DefaultPagination
 
     def get_serializer_class(self):
         if self.action == "list":
@@ -114,11 +130,13 @@ class RouteViewSet(ModelViewSet):
 class AirplaneTypeViewSet(ModelViewSet):
     queryset = AirplaneType.objects.all()
     serializer_class = AirplaneTypeSerializer
+    permission_classes = (IsAdminOrIfAuthenticatedReadOnly,)
 
 
 class AirplaneViewSet(ModelViewSet):
     queryset = Airplane.objects.all()
     permission_classes = (IsAdminOrIfAuthenticatedReadOnly,)
+    pagination_class = DefaultPagination
 
     def get_serializer_class(self):
         if self.action == "list":
@@ -186,10 +204,39 @@ class AirplaneViewSet(ModelViewSet):
 
         return queryset
 
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                "airplane_types",
+                type={"type": "list", "items": {"type": "number"}},
+                description="Filter by airplane_type ids (ex. ?airplane_types=1,7)",
+            ),
+            OpenApiParameter(
+                "name",
+                type=OpenApiTypes.STR,
+                description="Filter by airplane name (ex. ?name=boeing)",
+            ),
+            OpenApiParameter(
+                "capacity_gte",
+                type=OpenApiTypes.NUMBER,
+                description="Filter by capacity greater than equals (ex. ?capacity_gte=100)",
+            ),
+            OpenApiParameter(
+                "capacity_lte",
+                type=OpenApiTypes.NUMBER,
+                description="Filter by capacity less than equals (ex. ?capacity_lte=150)",
+            ),
+        ]
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
 
 class CrewViewSet(ModelViewSet):
     queryset = Crew.objects.all()
     serializer_class = CrewSerializer
+    permission_classes = (IsAdminOrIfAuthenticatedReadOnly,)
+    pagination_class = DefaultPagination
 
 
 class FlightViewSet(ModelViewSet):
@@ -206,6 +253,7 @@ class FlightViewSet(ModelViewSet):
         )
     )
     permission_classes = (IsAdminOrIfAuthenticatedReadOnly,)
+    pagination_class = DefaultPagination
 
     @staticmethod
     def _params_to_ints(qs):
@@ -241,6 +289,28 @@ class FlightViewSet(ModelViewSet):
 
         return FlightSerializer
 
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                "airplanes",
+                type={"type": "list", "items": {"type": "number"}},
+                description="Filter by airplane ids (ex. ?airplanes_ids=3,12)",
+            ),
+            OpenApiParameter(
+                "routes",
+                type={"type": "list", "items": {"type": "number"}},
+                description="Filter by routes ids (ex. ?routes=4,7)",
+            ),
+            OpenApiParameter(
+                "date",
+                type=OpenApiTypes.DATE,
+                description="Filter by flight date (ex. ?date=2024-05-01)",
+            ),
+        ]
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
 
 class OrderViewSet(ModelViewSet):
     queryset = (
@@ -250,6 +320,7 @@ class OrderViewSet(ModelViewSet):
     )
     serializer_class = OrderSerializer
     permission_classes = (IsAuthenticated,)
+    pagination_class = DefaultPagination
 
     def get_queryset(self):
         return Order.objects.filter(user=self.request.user)
