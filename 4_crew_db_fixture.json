@@ -1,0 +1,98 @@
+[
+  {
+    "model": "airport_app.crew",
+    "pk": 1,
+    "fields": {
+      "first_name": "John",
+      "last_name": "Doe"
+    }
+  },
+  {
+    "model": "airport_app.crew",
+    "pk": 2,
+    "fields": {
+      "first_name": "Alice",
+      "last_name": "Smith"
+    }
+  },
+  {
+    "model": "airport_app.crew",
+    "pk": 3,
+    "fields": {
+      "first_name": "Bob",
+      "last_name": "Johnson"
+    }
+  },
+  {
+    "model": "airport_app.crew",
+    "pk": 4,
+    "fields": {
+      "first_name": "Emily",
+      "last_name": "Williams"
+    }
+  },
+  {
+    "model": "airport_app.crew",
+    "pk": 5,
+    "fields": {
+      "first_name": "Michael",
+      "last_name": "Brown"
+    }
+  },
+  {
+    "model": "airport_app.crew",
+    "pk": 6,
+    "fields": {
+      "first_name": "Sophia",
+      "last_name": "Jones"
+    }
+  },
+  {
+    "model": "airport_app.crew",
+    "pk": 7,
+    "fields": {
+      "first_name": "William",
+      "last_name": "Davis"
+    }
+  },
+  {
+    "model": "airport_app.crew",
+    "pk": 8,
+    "fields": {
+      "first_name": "Emma",
+      "last_name": "Miller"
+    }
+  },
+  {
+    "model": "airport_app.crew",
+    "pk": 9,
+    "fields": {
+      "first_name": "Alexander",
+      "last_name": "Wilson"
+    }
+  },
+  {
+    "model": "airport_app.crew",
+    "pk": 10,
+    "fields": {
+      "first_name": "Charlotte",
+      "last_name": "Taylor"
+    }
+  },
+  {
+    "model": "airport_app.crew",
+    "pk": 11,
+    "fields": {
+      "first_name": "Daniel",
+      "last_name": "Anderson"
+    }
+  },
+  {
+    "model": "airport_app.crew",
+    "pk": 12,
+    "fields": {
+      "first_name": "Olivia",
+      "last_name": "Thomas"
+    }
+  }
+]
