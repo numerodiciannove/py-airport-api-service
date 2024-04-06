@@ -57,8 +57,8 @@ class User(AbstractUser):
 
     username = None
     email = models.EmailField(_("email address"), unique=True)
-    user_image = models.ImageField(_("user image"),
-                                   upload_to=user_image_file_path,
-                                   null=True, blank=True)
+    user_image = models.ImageField(
+        _("user image"), upload_to=user_image_file_path, null=True, blank=True
+    )
 
     objects = UserManager()

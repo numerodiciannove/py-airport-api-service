@@ -152,7 +152,9 @@ class AirplaneViewSet(ModelViewSet):
         methods=["POST"],
         detail=True,
         url_path="upload-image",
-        permission_classes=[IsAdminUser, ],
+        permission_classes=[
+            IsAdminUser,
+        ],
     )
     def upload_image(self, request, pk=None):
         airplane = self.get_object()
@@ -172,32 +174,24 @@ class AirplaneViewSet(ModelViewSet):
         capacity_lte = self.request.query_params.get("capacity_lte")
 
         if airplane_type:
-            airplane_types_ids = [
-                int(str_id) for str_id in airplane_type.split(",")
-            ]
-            queryset = Airplane.objects.filter(
-                airplane_type__id__in=airplane_types_ids
-            )
+            airplane_types_ids = [int(str_id) for str_id in airplane_type.split(",")]
+            queryset = Airplane.objects.filter(airplane_type__id__in=airplane_types_ids)
 
         if capacity_gte:
             queryset = queryset.annotate(
                 computed_capacity=ExpressionWrapper(
-                    F('rows') * F('seats_in_row'),
+                    F("rows") * F("seats_in_row"),
                     output_field=IntegerField(),
                 )
-            ).filter(
-                computed_capacity__gte=int(capacity_gte)
-            )
+            ).filter(computed_capacity__gte=int(capacity_gte))
 
         if capacity_lte:
             queryset = queryset.annotate(
                 computed_capacity=ExpressionWrapper(
-                    F('rows') * F('seats_in_row'),
+                    F("rows") * F("seats_in_row"),
                     output_field=IntegerField(),
                 )
-            ).filter(
-                computed_capacity__lte=int(capacity_lte)
-            )
+            ).filter(computed_capacity__lte=int(capacity_lte))
 
         if self.action in ["list", "retrieve"]:
             queryset = queryset.prefetch_related("airplane_type")
@@ -242,13 +236,13 @@ class CrewViewSet(ModelViewSet):
 class FlightViewSet(ModelViewSet):
     queryset = (
         Flight.objects.all()
-        .select_related("route__source",
-                        "route__destination",
-                        "airplane__airplane_type")
+        .select_related(
+            "route__source", "route__destination", "airplane__airplane_type"
+        )
         .annotate(
             tickets_available=(
-                    F("airplane__rows") * F("airplane__seats_in_row")
-                    - Count("flight_tickets")
+                F("airplane__rows") * F("airplane__seats_in_row")
+                - Count("flight_tickets")
             )
         )
     )
@@ -313,11 +307,9 @@ class FlightViewSet(ModelViewSet):
 
 
 class OrderViewSet(ModelViewSet):
-    queryset = (
-        Order.objects
-        .select_related("tickets__flight__airplane", "tickets__flight__route")
-        .prefetch_related("tickets__flight__crew")
-    )
+    queryset = Order.objects.select_related(
+        "tickets__flight__airplane", "tickets__flight__route"
+    ).prefetch_related("tickets__flight__crew")
     serializer_class = OrderSerializer
     permission_classes = (IsAuthenticated,)
     pagination_class = DefaultPagination

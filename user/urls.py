@@ -15,12 +15,12 @@ urlpatterns = [
     path(
         "me/",
         ManageUserView.as_view(actions={"get": "retrieve", "put": "update"}),
-        name="manage"
+        name="manage",
     ),
     path(
         "me/upload-user-image/",
         ManageUserView.as_view(actions={"post": "upload_user_image"}),
-        name="upload-user-image"
+        name="upload-user-image",
     ),
 ]
 

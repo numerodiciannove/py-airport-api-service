@@ -26,11 +26,14 @@ class City(models.Model):
         on_delete=models.CASCADE,
         related_name="city_country",
         blank=False,
-        null=False
+        null=False,
     )
 
     class Meta:
-        unique_together = ("country", "name",)
+        unique_together = (
+            "country",
+            "name",
+        )
         verbose_name_plural = "cities"
 
     def __str__(self):
@@ -56,11 +59,13 @@ class Airport(models.Model):
 
 class Route(models.Model):
     source = models.ForeignKey(
-        Airport, on_delete=models.CASCADE,
+        Airport,
+        on_delete=models.CASCADE,
         related_name="source_routes",
     )
     destination = models.ForeignKey(
-        Airport, on_delete=models.CASCADE,
+        Airport,
+        on_delete=models.CASCADE,
         related_name="destination_routes",
     )
     distance = models.IntegerField(null=True)
@@ -199,9 +204,9 @@ class Ticket(models.Model):
                 raise error_to_raise(
                     {
                         ticket_attr_name: f"{ticket_attr_name} "
-                                          f"number must be in available range: "
-                                          f"(1, {airplane_attr_name}): "
-                                          f"(1, {count_attrs})"
+                        f"number must be in available range: "
+                        f"(1, {airplane_attr_name}): "
+                        f"(1, {count_attrs})"
                     }
                 )
 
@@ -214,11 +219,11 @@ class Ticket(models.Model):
         )
 
     def save(
-            self,
-            force_insert=False,
-            force_update=False,
-            using=None,
-            update_fields=None,
+        self,
+        force_insert=False,
+        force_update=False,
+        using=None,
+        update_fields=None,
     ):
         self.full_clean()
         return super(Ticket, self).save(
@@ -226,9 +231,7 @@ class Ticket(models.Model):
         )
 
     def __str__(self):
-        return (
-            f"{str(self.flight)} (row: {self.row}, seat: {self.seat})"
-        )
+        return f"{str(self.flight)} (row: {self.row}, seat: {self.seat})"
 
     class Meta:
         unique_together = ("flight", "row", "seat")

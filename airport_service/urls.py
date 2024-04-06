@@ -5,15 +5,13 @@ from django.urls import path, include
 from drf_spectacular.views import SpectacularSwaggerView, SpectacularAPIView
 
 urlpatterns = [
-                  path("admin/", admin.site.urls),
-                  path("api/v1/airport_app/",
-                       include("airport_app.urls", namespace="airport_app")),
-                  path("api/v1/user/", include("user.urls", namespace="user")),
-                  path("api/v1/schema/", SpectacularAPIView.as_view(),
-                       name="schema"),
-                  path(
-                      "api/v1/doc/swagger/",
-                      SpectacularSwaggerView.as_view(url_name="schema"),
-                      name="swagger-ui",
-                  ),
-              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path("admin/", admin.site.urls),
+    path("api/v1/airport_app/", include("airport_app.urls", namespace="airport_app")),
+    path("api/v1/user/", include("user.urls", namespace="user")),
+    path("api/v1/schema/", SpectacularAPIView.as_view(), name="schema"),
+    path(
+        "api/v1/doc/swagger/",
+        SpectacularSwaggerView.as_view(url_name="schema"),
+        name="swagger-ui",
+    ),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
