@@ -1,22 +1,24 @@
-FROM python:3.12.2-alpine3.19
+FROM python:3.11.6-alpine3.18
+LABEL maintainer="19@91.com"
 
-LABEL maintainer="info@develop.com"
-
-ENV PYTHONUNNBUFFERED 1
+ENV PYTHOUNBUFFERED 1
 
 WORKDIR app/
+
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
 COPY . .
-RUN mkdir -p /vol/web/media
+
+RUN mkdir -p /files/media
 
 RUN adduser \
-         --disabled-password \
-         --no-create-home \
-         django-user
+    --disabled-password \
+    --no-create-home \
+    my_user
 
-RUN chown -R django-user:django-user /vol/
-RUN chmod -R 755 /vol/web/
+RUN chown -R my_user /files/media
+RUN chmod -R 755 /files/media
 
-USER django-user
+
+USER my_user
