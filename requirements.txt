@@ -1,0 +1,13 @@
+Django==4.2.11
+djangorestframework==3.14.0
+djangorestframework-simplejwt==5.3.1
+drf-spectacular==0.27.2
+pillow==10.2.0
+pytz==2024.1
+psycopg==3.1.18
+psycopg-binary==3.1.18
+psycopg2-binary==2.9.9
+django-probes==1.7.0
+python-dotenv==1.0.1
+setuptools==69.2.0
+

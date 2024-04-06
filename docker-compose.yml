@@ -1,0 +1,32 @@
+services:
+  airport_app:
+    build:
+      context: .
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./:/app
+    command: >
+      sh -c
+      "
+      python manage.py wait_for_db &&
+      python manage.py migrate &&
+      python manage.py runserver 0.0.0.0:8000
+      "
+    env_file:
+      - .env
+    depends_on:
+      - airport_app_db
+
+  airport_app_db:
+    image: postgres:16.0-alpine3.17
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "5432:5432"
+    volumes:
+      - airport_app_db_data:${PGDATA}
+
+volumes:
+  airport_app_db_data:
