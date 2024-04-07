@@ -6,7 +6,7 @@ API service for tracking flights from airports across the whole globe.
 
 - Works only on http!
 - [http://huy.skin/](http://huy.skin/)
-- https://huy.skin/admin/
+- http://huy.skin/admin/
 - login: admin@admin.com
 - pass: admin
 
