@@ -4,11 +4,11 @@ API service for tracking flights from airports across the whole globe.
 
 ## For testing on externul domain you can use this:
 
-Works only on http!
-[http://huy.skin/](http://huy.skin/)
-https://huy.skin/admin/
-login: admin@admin.com
-pass: admin
+- Works only on http!
+- [http://huy.skin/](http://huy.skin/)
+- https://huy.skin/admin/
+- login: admin@admin.com
+- pass: admin
 
 ## Installing using GitHub:
 
