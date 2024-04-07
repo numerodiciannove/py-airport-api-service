@@ -2,6 +2,10 @@
 
 API service for tracking flights from airports across the whole globe.
 
+## For testing on externul domain you can use this:
+
+[http://huy.skin/](http://huy.skin/)
+
 ## Installing using GitHub:
 
 Install PostgreSQL and create db
